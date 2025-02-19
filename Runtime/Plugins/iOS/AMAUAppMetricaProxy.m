@@ -29,7 +29,7 @@ void amau_setUnityLogDelegate(AMAULogCallbackDelegate logger)
 void amau_activate(char *configJson)
 {
     if (_unityLogDelegate != nil) {
-        NSString* logStr = [NSString stringWithFormat:@"Trying to activate appmetrica with configuration: %s", configJson];
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_activate(): deviceID= %s, config= %s", amau_cStringFromString(AMAAppMetrica.deviceID), configJson];
         _unityLogDelegate([logStr UTF8String]);
     }
 
@@ -47,19 +47,35 @@ void amau_activate(char *configJson)
         
         if (AMAAppMetrica.isActivated) {
             NSLog(@"Skip AppMetrica activate. AppMetrica has already been started");
+            if (_unityLogDelegate != nil) {
+                NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_activate(): Skip AppMetrica activate. AppMetrica has already been started. deviceID= %s", amau_cStringFromString(AMAAppMetrica.deviceID)];
+                _unityLogDelegate([logStr UTF8String]);
+            }
         } else {
             [AMAAppMetrica activateWithConfiguration:config];
             NSLog(@"Appmetrica activated with configuration: %s", configJson);
+            if (_unityLogDelegate != nil) {
+                NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_activate(): Appmetrica activated. deviceID= %s, config= %s", amau_cStringFromString(AMAAppMetrica.deviceID), configJson];
+                _unityLogDelegate([logStr UTF8String]);
+            }
         }
         [[AMAAppMetricaCrashes crashes] setConfiguration: amau_deserializeAppMetricaCrashesConfiguration(configJson)];
         [[[AMAAppMetricaCrashes crashes] pluginExtension] handlePluginInitFinished];
     } else {
+        if (_unityLogDelegate != nil) {
+                NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_activate(): Failed to deserialize AppMetrica configuration. deviceID= %s config= %s", amau_cStringFromString(AMAAppMetrica.deviceID), configJson];
+                _unityLogDelegate([logStr UTF8String]);
+            }
         NSLog(@"Failed to deserialize AppMetrica configuration: %s", configJson);
     }
 }
 
 void amau_activateReporter(char *configJson)
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_activateReporter(): deviceID= %s, config= %s", amau_cStringFromString(AMAAppMetrica.deviceID), configJson];
+        _unityLogDelegate([logStr UTF8String]);
+    }
     AMAReporterConfiguration *config = amau_deserializeReporterConfiguration(configJson);
     if (config != nil) {
         [AMAAppMetrica activateReporterWithConfiguration:config];
@@ -76,46 +92,83 @@ void amau_activateReporter(char *configJson)
         }
     } else {
         NSLog(@"Failed to deserialize AppMetrica reporter configuration: %s", configJson);
+        if (_unityLogDelegate != nil) {
+            NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_activateReporter(): Failed to deserialize AppMetrica configuration. deviceID= %s config= %s", amau_cStringFromString(AMAAppMetrica.deviceID), configJson];
+            _unityLogDelegate([logStr UTF8String]);
+        }
     }
 }
 
 void amau_clearAppEnvironment()
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_clearAppEnvironment(): deviceID= %s", amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
     [AMAAppMetrica clearAppEnvironment];
 }
 
 char *amau_getDeviceID()
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_getDeviceID(): AMAAppMetrica.deviceID = %s", amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
+    
     return amau_cStringFromString(AMAAppMetrica.deviceID);
 }
 
 char *amau_getLibraryVersion()
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_getLibraryVersion(): AMAAppMetrica.libraryVersion = %s", AMAAppMetrica.libraryVersion];
+        _unityLogDelegate([logStr UTF8String]);
+    }
     return amau_cStringFromString(AMAAppMetrica.libraryVersion);
 }
 
 char *amau_getUuid()
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_getUuid(): AMAAppMetrica.UUID = %s, deviceID= %s", AMAAppMetrica.UUID, amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
     return amau_cStringFromString(AMAAppMetrica.UUID);
 }
 
 bool amau_isActivated()
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_getUuid(): AMAAppMetrica.isActivated = %s, deviceID= %s", AMAAppMetrica.isActivated ? "true" : "false", amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
     return AMAAppMetrica.isActivated;
 }
 
 void amau_pauseSession()
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_pauseSession(): AMAAppMetrica.pauseSession = %s (deviceID = %s)", AMAAppMetrica.isActivated ? "true" : "false", amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
     [AMAAppMetrica pauseSession];
 }
 
 void amau_putAppEnvironmentValue(char *key, char *value)
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_putAppEnvironmentValue(): %s = %s (deviceID = %s)", key, value, amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
     [AMAAppMetrica setAppEnvironmentValue:amau_stringFromCString(value) forKey:amau_stringFromCString(key)];
 }
 
 void amau_putErrorEnvironmentValue(char *key, char *value)
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_putErrorEnvironmentValue(): %s = %s (deviceID = %s)", key, value, amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
     [[AMAAppMetricaCrashes crashes] setErrorEnvironmentValue:amau_stringFromCString(value) forKey:amau_stringFromCString(key)];
 }
 
@@ -125,8 +178,16 @@ void amau_reportAdRevenue(char *adRevenueJson)
     if (adRevenue != nil) {
         [AMAAppMetrica reportAdRevenue:adRevenue onFailure:^(NSError *error) {
             NSLog(@"Failed to report AdRevenue to AppMetrica: %@", [error localizedDescription]);
+            if (_unityLogDelegate != nil) {
+                NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_reportAdRevenue(): Failed to report AdRevenue to AppMetrica: %s (deviceID = %s)", [error localizedDescription], amau_cStringFromString(AMAAppMetrica.deviceID)];
+                _unityLogDelegate([logStr UTF8String]);
+            }
         }];
     } else {
+        if (_unityLogDelegate != nil) {
+            NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_reportAdRevenue(): Failed to deserialize AppMetrica AdRevenue %s  (deviceID = %s)", adRevenueJson, amau_cStringFromString(AMAAppMetrica.deviceID)];
+            _unityLogDelegate([logStr UTF8String]);
+        }
         NSLog(@"Failed to deserialize AppMetrica AdRevenue: %s", adRevenueJson);
     }
 }
@@ -137,6 +198,10 @@ void amau_reportAppOpen(char *deeplink)
     if (url != nil) {
         [AMAAppMetrica trackOpeningURL:[[NSURL alloc] initWithString:url]];
     } else {
+        if (_unityLogDelegate != nil) {
+            NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_reportAppOpen():  Failed to trackOpeningURL %s. Url is nil (deviceID = %s)", deeplink, amau_cStringFromString(AMAAppMetrica.deviceID)];
+            _unityLogDelegate([logStr UTF8String]);
+        }
         NSLog(@"Failed to trackOpeningURL %s. Url is nil", deeplink);
     }
 }
@@ -157,6 +222,11 @@ void amau_reportErrorWithoutIdentifier(char *messageCString, char *errorJson)
 {
     NSString *message = amau_stringFromCString(messageCString);
     AMAPluginErrorDetails *error = amau_deserializeException(errorJson);
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_reportErrorWithoutIdentifier():  %s=%s (deviceID = %s)",messageCString, errorJson, amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
+
     if (error.backtrace.count == 0) {
         [[[AMAAppMetricaCrashes crashes] pluginExtension] reportErrorWithIdentifier:@"Errors without stacktrace"
                                                                             message:message
@@ -173,6 +243,11 @@ void amau_reportErrorWithoutIdentifier(char *messageCString, char *errorJson)
 
 void amau_reportError(char *identifier, char *message, char *error)
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_reportError():  %s: %s=%s (deviceID = %s)",identifier, messageCString, errorJson, amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
+
     [[[AMAAppMetricaCrashes crashes] pluginExtension] reportErrorWithIdentifier:amau_stringFromCString(identifier)
                                                                         message:amau_stringFromCString(message)
                                                                         details:amau_deserializeException(error)
@@ -183,9 +258,18 @@ void amau_reportError(char *identifier, char *message, char *error)
 
 void amau_reportEvent(char *message, char *paramsJson)
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_reportEvent():  %s params=%s (deviceID = %s)",message, paramsJson, amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
+
     [AMAAppMetrica reportEvent:amau_stringFromCString(message)
                     parameters:amau_dictionaryFromCString(paramsJson)
                      onFailure:^(NSError *error) {
+        if (_unityLogDelegate != nil) {
+            NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_reportEvent():  Failed to report event to AppMetrica: %@ . %s params=%s (deviceID = %s)",[error localizedDescription], message, paramsJson, amau_cStringFromString(AMAAppMetrica.deviceID)];
+            _unityLogDelegate([logStr UTF8String]);
+        }
         NSLog(@"Failed to report event to AppMetrica: %@", [error localizedDescription]);
     }];
 }
@@ -260,6 +344,10 @@ void amau_sendEventsBuffer()
 
 void amau_setDataSendingEnabled(bool enabled)
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_setDataSendingEnabled():  %s (deviceID = %s)", enabled ? "true" : "false", amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
     [AMAAppMetrica setDataSendingEnabled:enabled];
 }
 
@@ -275,6 +363,10 @@ void amau_setLocationTracking(bool enabled)
 
 void amau_setUserProfileID(char *userProfileID)
 {
+    if (_unityLogDelegate != nil) {
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_setUserProfileID():  %s (deviceID = %s)", userProfileID, amau_cStringFromString(AMAAppMetrica.deviceID)];
+        _unityLogDelegate([logStr UTF8String]);
+    }
     [AMAAppMetrica setUserProfileID:amau_stringFromCString(userProfileID)];
 }
 

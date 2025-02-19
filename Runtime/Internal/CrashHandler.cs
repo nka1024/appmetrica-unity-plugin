@@ -16,7 +16,7 @@ namespace Io.AppMetrica.Internal {
 
         private static void HandleLog(string condition, string stackTrace, LogType type) {
             if (type == LogType.Exception) {
-                if (_isAutoCrashReportingEnabled && AppMetrica.IsActivated()) {
+                if (_isAutoCrashReportingEnabled) {
                     AppMetrica.ReportExceptionFromLog(condition, stackTrace, Source);
                 }
             }
