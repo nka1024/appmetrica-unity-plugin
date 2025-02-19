@@ -21,14 +21,14 @@ void amau_setUnityLogDelegate(AMAULogCallbackDelegate logger)
 {
     _unityLogDelegate = logger;
     if (_unityLogDelegate != nil){
-        _unityLogDelegate(@"amau_setUnityLogDelegate")
+        _unityLogDelegate(@"amau_setUnityLogDelegate");
     }
 }
 
 void amau_activate(char *configJson)
 {
     if (_unityLogDelegate != nil){
-        _unityLogDelegate(@"Trying to activate appmetrica with configuration: %s", configJson)
+        _unityLogDelegate(@"Trying to activate appmetrica with configuration: %s", configJson);
     }
     AMAAppMetricaConfiguration *config = amau_deserializeAppMetricaConfiguration(configJson);
     if (config != nil) {
