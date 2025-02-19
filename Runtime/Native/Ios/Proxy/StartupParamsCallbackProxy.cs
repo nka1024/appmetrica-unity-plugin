@@ -7,6 +7,7 @@ using System;
 namespace Io.AppMetrica.Native.Ios.Proxy {
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once IdentifierTypo
+    internal delegate void AMAULogCallbackDelegate([CanBeNull] string message);
     internal delegate void AMAUStartupParamsCallbackDelegate(IntPtr actionPtr, [CanBeNull] string result, [CanBeNull] string errorReason);
 
     internal static class StartupParamsCallbackProxy {
@@ -16,6 +17,13 @@ namespace Io.AppMetrica.Native.Ios.Proxy {
                 StartupParamsSerializer.ResultFromJsonString(result),
                 StartupParamsSerializer.ErrorReasonFromJsonString(errorReason)
             );
+        }
+    }
+
+    internal static class UnityLogCallbacProxy {
+        [MonoPInvokeCallback(typeof(AMAULogCallbackDelegate))]
+        public static void Callback([CanBeNull] string logMsg) {
+            UnityEngine.Debug.Log($"AppMetricaNativeLog: {logMsg}");
         }
     }
 }

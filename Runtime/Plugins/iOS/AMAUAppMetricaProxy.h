@@ -1,6 +1,7 @@
 
 #import "AMAUStartupParamsCallbackProxy.h"
 
+void amau_setUnityLogDelegate(AMAULogCallbackDelegate logger);
 void amau_activate(char *configJson);
 void amau_activateReporter(char *configJson);
 void amau_clearAppEnvironment();

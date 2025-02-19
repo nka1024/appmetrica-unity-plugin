@@ -57,6 +57,12 @@ namespace Io.AppMetrica {
             CrashHandler.SetAutoCrashReporting(config.CrashReporting);
             ActivationConfig = config;
             OnActivation?.Invoke(config);
+            
+            string configText = null;
+            if (config != null)
+                 configText = Newtonsoft.Json.JsonConvert.SerializeObject(config);
+
+            UnityEngine.Debug.Log($"Managed code appmetrica activation. Config: {configText}");
         }
 
         /// <summary>

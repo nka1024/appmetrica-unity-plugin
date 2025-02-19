@@ -15,8 +15,21 @@
 #import "AMAUUserProfile.h"
 #import "AMAUUtils.h"
 
+AMAULogCallbackDelegate _unityLogDelegate;
+
+void amau_setUnityLogDelegate(AMAULogCallbackDelegate logger)
+{
+    _unityLogDelegate = logger;
+    if (_unityLogDelegate != nil){
+        _unityLogDelegate(@"amau_setUnityLogDelegate")
+    }
+}
+
 void amau_activate(char *configJson)
 {
+    if (_unityLogDelegate != nil){
+        _unityLogDelegate(@"Trying to activate appmetrica with configuration: %s", configJson)
+    }
     AMAAppMetricaConfiguration *config = amau_deserializeAppMetricaConfiguration(configJson);
     if (config != nil) {
         // pre-processing of the config
@@ -33,6 +46,7 @@ void amau_activate(char *configJson)
             NSLog(@"Skip AppMetrica activate. AppMetrica has already been started");
         } else {
             [AMAAppMetrica activateWithConfiguration:config];
+            NSLog(@"Appmetrica activated with configuration: %s", configJson);
         }
         [[AMAAppMetricaCrashes crashes] setConfiguration: amau_deserializeAppMetricaCrashesConfiguration(configJson)];
         [[[AMAAppMetricaCrashes crashes] pluginExtension] handlePluginInitFinished];

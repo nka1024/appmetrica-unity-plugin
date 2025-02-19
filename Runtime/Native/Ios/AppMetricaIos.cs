@@ -10,6 +10,13 @@ using JetBrains.Annotations;
 
 namespace Io.AppMetrica.Native.Ios {
     internal class AppMetricaIos : IAppMetricaNative {
+        
+        static AppMetricaIos()
+        {
+            UnityEngine.Debug.Log($"Try Setup Appmetrica unity logger");
+            AppMetricaProxy.amau_setUnityLogDelegate(UnityLogCallbacProxy.Callback);
+        }
+
         public void Activate([NotNull] AppMetricaConfig config) {
             AppMetricaProxy.amau_activate(config.ToJsonString());
         }

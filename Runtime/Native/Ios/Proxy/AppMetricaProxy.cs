@@ -6,6 +6,9 @@ using System;
 namespace Io.AppMetrica.Native.Ios.Proxy {
     internal static class AppMetricaProxy {
         [DllImport("__Internal")]
+        public static extern void amau_setUnityLogDelegate([NotNull] AMAULogCallbackDelegate @delegate);
+
+        [DllImport("__Internal")]
         public static extern void amau_activate([NotNull] string config);
 
         [DllImport("__Internal")]
