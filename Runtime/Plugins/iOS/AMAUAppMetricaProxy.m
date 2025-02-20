@@ -244,7 +244,7 @@ void amau_reportErrorWithoutIdentifier(char *messageCString, char *errorJson)
 void amau_reportError(char *identifier, char *message, char *error)
 {
     if (_unityLogDelegate != nil) {
-        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_reportError():  %s: %s=%s (deviceID = %s)",identifier, messageCString, errorJson, amau_cStringFromString(AMAAppMetrica.deviceID)];
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_reportError():  %s: %s=%s (deviceID = %s)",identifier, message, error, amau_cStringFromString(AMAAppMetrica.deviceID)];
         _unityLogDelegate([logStr UTF8String]);
     }
 
