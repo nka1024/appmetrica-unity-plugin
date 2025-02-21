@@ -52,7 +52,7 @@
 }
 
 +(void)plusKidsActivateWithConfiguration:(AMAAppMetricaConfiguration*) configuration {
-    NSLog(@"AMAAppMetrica activateWithConfiguration called. CallStack: %@", NSThread.callStackSymbols);
+    NSLog(@"AMAAppMetrica activateWithConfiguration called with apiKey=%@. CallStack: %@", configuration.APIKey, NSThread.callStackSymbols);
     [self plusKidsActivateWithConfiguration:configuration];
 }
 +(void)plusKidsActivate {
