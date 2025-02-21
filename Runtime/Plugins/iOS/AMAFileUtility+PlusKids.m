@@ -67,17 +67,16 @@
             if([creationDate compare: minData] == NSOrderedDescending) // if start is later in time than end
             {
                 NSLog(@"Date Created: %@ is later than %@", [creationDate description], [minData description]);
-                
+            }
+            else
+            {
+                NSLog(@"Date Created: %@ is earlier than %@", [creationDate description], [minData description]);
                 BOOL success = [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
                 if(success)
                 {
                     NSLog(@"io.appmetrica directory removed");
                     [self createPathIfNeeded:path];
                 }
-            }
-            else
-            {
-                NSLog(@"Date Created: %@ is erliaer", [creationDate description]);
             }
         }
         else {
