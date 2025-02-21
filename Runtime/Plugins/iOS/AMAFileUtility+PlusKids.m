@@ -40,7 +40,7 @@
 
   + (BOOL)plusKidsCreatePathIfNeeded:(NSString *)path
   {
-      NSLog(@"Call plusKidsCreatePathIfNeeded CallStack: %@", NSThread.callStackSymbols);
+    NSLog(@"Call plusKidsCreatePathIfNeeded: %@ CallStack: %@", path, NSThread.callStackSymbols);
     NSFileManager *fm = [NSFileManager defaultManager];
     BOOL result = YES;
     if ([fm fileExistsAtPath:path] == NO) {
@@ -63,7 +63,7 @@
             NSDateFormatter *mmddccyy = [[NSDateFormatter alloc] init];
             mmddccyy.timeStyle = NSDateFormatterNoStyle;
             mmddccyy.dateFormat = @"MM/dd/yyyy";
-            NSDate *minData = [mmddccyy dateFromString:@"05/02/2025"];
+            NSDate *minData = [mmddccyy dateFromString:@"02/05/2025"];
             if([creationDate compare: minData] == NSOrderedDescending) // if start is later in time than end
             {
                 NSLog(@"Date Created: %@ is later than %@", [creationDate description], [minData description]);
