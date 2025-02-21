@@ -21,26 +21,55 @@
 @implementation AMAAppMetrica (PlusKidsExtendedLogs)
 
 + (void)load {
+    NSLog(@"Swizzle start. activateWithConfiguration");
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^
   {
       @autoreleasepool
       {
-        Method original, swizzled;
         
-        original = class_getInstanceMethod(self, @selector(activateWithConfiguration:));
-        swizzled = class_getInstanceMethod(self, @selector(plusKidsActivateWithConfiguration:));
-        method_exchangeImplementations(original, swizzled);
+          Method original = class_getClassMethod(self, @selector(activateWithConfiguration:));
+          Method swizzled = class_getClassMethod(self, @selector(plusKidsActivateWithConfiguration:));
+          method_exchangeImplementations(original, swizzled);
+          NSLog(@"Swizzle success. activateWithConfiguration");
+          
+          original = class_getClassMethod(self, @selector(activate));
+          swizzled = class_getClassMethod(self, @selector(plusKidsActivate));
+          method_exchangeImplementations(original, swizzled);
+          NSLog(@"Swizzle success. activate");
+          
+          original = class_getClassMethod(self, @selector(reportEvent:onFailure:));
+          swizzled = class_getClassMethod(self, @selector(plusKidsReportEvent:onFailure:));
+          method_exchangeImplementations(original, swizzled);
+          NSLog(@"Swizzle success. reportEvent");
+          
+          original = class_getClassMethod(self, @selector(reportEvent:parameters:onFailure:));
+          swizzled = class_getClassMethod(self, @selector(plusKidsReportEvent:parameters:onFailure:));
+          method_exchangeImplementations(original, swizzled);
+          NSLog(@"Swizzle success. reportEvent:parameters");
       };
   });
 }
 
--(void)plusKidsActivateWithConfiguration:(AMAAppMetricaConfiguration*) configuration {
-
++(void)plusKidsActivateWithConfiguration:(AMAAppMetricaConfiguration*) configuration {
     NSLog(@"AMAAppMetrica activateWithConfiguration called. CallStack: %@", NSThread.callStackSymbols);
-    // looks like it's just calling itself, but the implementations were swapped so we're actually 
-    // calling the original once we're done 
     [self plusKidsActivateWithConfiguration:configuration];
 }
++(void)plusKidsActivate {
+    NSLog(@"AMAAppMetrica activate called. CallStack: %@", NSThread.callStackSymbols);
+    [self plusKidsActivate];
+}
 
++ (void)plusKidsReportEvent:(NSString *)name onFailure:(void (^)(NSError *error))onFailure {
+    NSLog(@"AMAAppMetrica reportEvent: %@ called. CallStack: %@", name, NSThread.callStackSymbols);
+    [self plusKidsReportEvent:name onFailure: onFailure];
+}
+
++ (void)plusKidsReportEvent:(NSString *)name
+         parameters:(NSDictionary *)params
+          onFailure:(void (^)(NSError *error))onFailure
+{
+    NSLog(@"AMAAppMetrica reportEvent:parameters: %@ called. CallStack: %@", name, NSThread.callStackSymbols);
+    [self plusKidsReportEvent:name parameters:params onFailure: onFailure];
+}
 @end

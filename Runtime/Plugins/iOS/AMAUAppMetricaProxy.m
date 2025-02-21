@@ -21,8 +21,8 @@ AMAULogCallbackDelegate _unityLogDelegate;
 void amau_logStatus()
 {
     if (_unityLogDelegate != nil) {
-        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.status(): appMetricaStarted=%s appMetricaStartedAnonymously=%s, isActivated=%s, UUID=%s, deviceId=%s, userProfileId ",[AMAAppMetricaConfiguration sharedInstance].inMemory.appMetricaStarted ? "true" : "false", [AMAAppMetricaConfiguration sharedInstance].inMemory.appMetricaStartedAnonymously ? "true" : "false", AMAAppMetrica.isActivated ? "true" : "false", amau_cStringFromString(AMAAppMetrica.UUID), amau_cStringFromString(AMAAppMetrica.deviceID), amau_cStringFromString(AMAAppMetrica.userProfileID)];
-            _unityLogDelegate([logStr UTF8String]);   
+        NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.status():  isActivated=%s, UUID=%s, deviceId=%s, userProfileId=%s ", AMAAppMetrica.isActivated ? "true" : "false", amau_cStringFromString(AMAAppMetrica.UUID), amau_cStringFromString(AMAAppMetrica.deviceID), amau_cStringFromString(AMAAppMetrica.userProfileID)];
+            _unityLogDelegate([logStr UTF8String]);
     }
 }
 
