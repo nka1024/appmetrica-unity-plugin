@@ -7,22 +7,22 @@
 
 + (void)clean
 {
-  NSLog(@"starting PlusKidsLocalStorageCleaner...");
-    NSString *key = @"AppMetrica.storage.removed.580";
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    BOOL deleted = [defaults boolForKey:key];
+  // NSLog(@"starting PlusKidsLocalStorageCleaner...");
+  //   NSString *key = @"AppMetrica.storage.removed.580";
+  //   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  //   BOOL deleted = [defaults boolForKey:key];
     
-    if (deleted) {
-        NSLog(@"skip PlusKidsLocalStorageCleaner: already deleted. ");
-        return;
-    }
+  //   if (deleted) {
+  //       NSLog(@"skip PlusKidsLocalStorageCleaner: already deleted. ");
+  //       return;
+  //   }
 
-    [defaults setBool:YES forKey:key];
-    [defaults synchronize];
+  //   [defaults setBool:YES forKey:key];
+  //   [defaults synchronize];
     
-    NSString *path = [AMAFileUtility persistentPath];
-    [AMAFileUtility deleteFileAtPath:path];
-    NSLog(@"PlusKidsLocalStorageCleaner: deleted %@", path);
+  //   NSString *path = [AMAFileUtility persistentPath];
+  //   [AMAFileUtility deleteFileAtPath:path];
+  //   NSLog(@"PlusKidsLocalStorageCleaner: deleted %@", path);
 
 }
 @end
