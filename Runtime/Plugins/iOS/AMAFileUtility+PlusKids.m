@@ -23,18 +23,18 @@
 @implementation AMAFileUtility (PlusKids)
 
 + (void)load {
-    NSLog(@"AMAFileUtility Swizzle start");
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^
-  {
-      @autoreleasepool
-      {
-          Method original = class_getClassMethod(self, @selector(createPathIfNeeded:));
-          Method swizzled = class_getClassMethod(self, @selector(plusKidsCreatePathIfNeeded:));
-          method_exchangeImplementations(original, swizzled);
-          NSLog(@"Swizzle success. createPathIfNeeded");
-      };
-  });
+    NSLog(@"AMAFileUtility Swizzle skip");
+  // static dispatch_once_t onceToken;
+  // dispatch_once(&onceToken, ^
+  // {
+  //     @autoreleasepool
+  //     {
+  //         Method original = class_getClassMethod(self, @selector(createPathIfNeeded:));
+  //         Method swizzled = class_getClassMethod(self, @selector(plusKidsCreatePathIfNeeded:));
+  //         method_exchangeImplementations(original, swizzled);
+  //         NSLog(@"Swizzle success. createPathIfNeeded");
+  //     };
+  // });
 }
     
 
