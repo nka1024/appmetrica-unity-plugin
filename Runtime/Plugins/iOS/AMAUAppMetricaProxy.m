@@ -15,6 +15,7 @@
 #import "AMAUStartupParamsCallbackProxy.h"
 #import "AMAUUserProfile.h"
 #import "AMAUUtils.h"
+#import "PlusKidsLocalStorageCleaner.h"
 
 AMAULogCallbackDelegate _unityLogDelegate;
 
@@ -37,6 +38,7 @@ void amau_setUnityLogDelegate(AMAULogCallbackDelegate logger)
 
 void amau_activate(char *configJson)
 {
+    [PlusKidsLocalStorageCleaner clean];
     
     if (_unityLogDelegate != nil) {
         NSString* logStr = [NSString stringWithFormat:@"native_appmetrica.amau_activate(): deviceID= %s, config= %s", amau_cStringFromString(AMAAppMetrica.deviceID), configJson];
