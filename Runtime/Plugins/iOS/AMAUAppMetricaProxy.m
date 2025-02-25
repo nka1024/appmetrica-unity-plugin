@@ -14,9 +14,12 @@
 #import "AMAUStartupParamsCallbackProxy.h"
 #import "AMAUUserProfile.h"
 #import "AMAUUtils.h"
+#import "AppMetricaStorageFixer.h"
 
 void amau_activate(char *configJson)
 {
+    [AppMetricaStorageFixer fixDatabase];
+
     AMAAppMetricaConfiguration *config = amau_deserializeAppMetricaConfiguration(configJson);
     if (config != nil) {
         // pre-processing of the config
