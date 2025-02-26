@@ -8,21 +8,21 @@
 @implementation AMALogFacade (PlusKidsNSLog)
 
 + (void)load {
-    NSLog(@"Swizzle start: AMALogFacade.logMessageToChannel:level:...");
+    NSLog(@"Swizzle start: AMALogFacade skip");
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^
   {
       @autoreleasepool
       {
-          Method original = class_getInstanceMethod([AMALogFacade class], @selector(logMessageToChannel:level:file:function:line:addBacktrace:message:));
-          Method swizzled = class_getInstanceMethod([self class], @selector(plusKidsLogMessageToChannel:level:file:function:line:addBacktrace:message:));
-          method_exchangeImplementations(original, swizzled);
-          NSLog(@"Swizzle success. AMALogFacade.logMessageToChannel:...message:");
+        //   Method original = class_getInstanceMethod([AMALogFacade class], @selector(logMessageToChannel:level:file:function:line:addBacktrace:message:));
+        //   Method swizzled = class_getInstanceMethod([self class], @selector(plusKidsLogMessageToChannel:level:file:function:line:addBacktrace:message:));
+        //   method_exchangeImplementations(original, swizzled);
+        //   NSLog(@"Swizzle success. AMALogFacade.logMessageToChannel:...message:");
           
-          original = class_getInstanceMethod([AMALogFacade class], @selector(logMessageToChannel:level:file:function:line:addBacktrace:format:));
-          swizzled = class_getInstanceMethod([self class], @selector(plusKidsLogMessageToChannel:level:file:function:line:addBacktrace:format:));
-          method_exchangeImplementations(original, swizzled);
-          NSLog(@"Swizzle success. AMALogFacade.logMessageToChannel:...format:");
+        //   original = class_getInstanceMethod([AMALogFacade class], @selector(logMessageToChannel:level:file:function:line:addBacktrace:format:));
+        //   swizzled = class_getInstanceMethod([self class], @selector(plusKidsLogMessageToChannel:level:file:function:line:addBacktrace:format:));
+        //   method_exchangeImplementations(original, swizzled);
+        //   NSLog(@"Swizzle success. AMALogFacade.logMessageToChannel:...format:");
       };
   });
 }
